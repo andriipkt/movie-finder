@@ -1,38 +1,45 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { fetchHomeMoviesAPI } from 'tools/API-service';
+import { RotatingLines } from 'react-loader-spinner';
 
 const Home = () => {
   const [movies, setMovies] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchAPI = async () => {
       try {
         const response = await fetchHomeMoviesAPI();
         const { results } = response;
 
         setMovies(results);
       } catch (error) {
-        throw error;
+        console.error(error);
       }
     };
 
-    fetchImages();
+    fetchAPI();
   }, []);
 
   return (
     <div>
-      <h1>Trending today</h1>
+      <h2>Trending today</h2>
       {movies ? (
-        <ul>
+        <ul
+          className="list-group list-group-flush"
+          style={{ display: 'inline-block' }}
+        >
           {movies.map(({ id, title }) => (
-            <Link key={id} to={`movies/${id}`}>
-              <li>{title}</li>
-            </Link>
+            <li className="list-group-item" key={id}>
+              <Link to={`movies/${id}`} state={{ from: location }}>
+                {title}
+              </Link>
+            </li>
           ))}
         </ul>
       ) : (
-        <p>Loading...</p>
+        <RotatingLines strokeColor="orange" width="36" />
       )}
     </div>
   );

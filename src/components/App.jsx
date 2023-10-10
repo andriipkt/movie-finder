@@ -22,7 +22,7 @@ export const App = () => {
           path="*"
           element={
             <>
-              <div>PAGE NOT fouND </div>
+              <h2>PAGE NOT FOUND </h2>
               <Link to="/">to main page</Link>
             </>
           }
@@ -31,5 +31,3 @@ export const App = () => {
     </Routes>
   );
 };
-
-//  <Route></Route>;

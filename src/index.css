@@ -19,3 +19,22 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: orange;
+  transition: color 250ms ease-in-out;
+}
+
+a:hover,
+a:focus {
+  color: black;
+}
+
+.col-md-4 {
+  width: inherit;
+}
