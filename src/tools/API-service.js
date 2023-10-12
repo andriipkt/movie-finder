@@ -18,8 +18,6 @@ export async function fetchHomeMoviesAPI() {
     options
   );
 
-  console.log(response);
-
   return response.data;
 }
 

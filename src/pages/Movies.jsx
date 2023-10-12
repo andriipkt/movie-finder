@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { fetchMovieByQuery } from 'tools/API-service';
 import { RotatingLines } from 'react-loader-spinner';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import MoviesList from 'components/MoviesList/MoviesList';
 
 const Movies = () => {
-  const [movies, setMovies] = useState('');
+  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -80,24 +81,7 @@ const Movies = () => {
       {loading ? (
         <RotatingLines strokeColor="orange" width="36" />
       ) : (
-        <ul
-          className="list-group list-group-flush"
-          style={{ display: 'inline-block' }}
-        >
-          {movies ? (
-            movies.map(movie => {
-              return (
-                <li key={movie.id} className="list-group-item">
-                  <Link to={`${movie.id}`} state={{ from: location }}>
-                    {movie.title}
-                  </Link>
-                </li>
-              );
-            })
-          ) : (
-            <></>
-          )}
-        </ul>
+        <MoviesList movies={movies} location={location} />
       )}
     </>
   );

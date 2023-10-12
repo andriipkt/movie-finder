@@ -1,10 +1,11 @@
+import MoviesList from 'components/MoviesList/MoviesList';
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { fetchHomeMoviesAPI } from 'tools/API-service';
 import { RotatingLines } from 'react-loader-spinner';
 
 const Home = () => {
-  const [movies, setMovies] = useState(null);
+  const [movies, setMovies] = useState([]);
   const location = useLocation();
 
   useEffect(() => {
@@ -26,7 +27,17 @@ const Home = () => {
     <div>
       <h2>Trending today</h2>
       {movies ? (
-        <ul
+        <MoviesList movies={movies} location={location} />
+      ) : (
+        <RotatingLines strokeColor="orange" width="36" />
+      )}
+    </div>
+  );
+};
+
+export default Home;
+
+/* <ul
           className="list-group list-group-flush"
           style={{ display: 'inline-block' }}
         >
@@ -37,12 +48,4 @@ const Home = () => {
               </Link>
             </li>
           ))}
-        </ul>
-      ) : (
-        <RotatingLines strokeColor="orange" width="36" />
-      )}
-    </div>
-  );
-};
-
-export default Home;
+        </ul> */

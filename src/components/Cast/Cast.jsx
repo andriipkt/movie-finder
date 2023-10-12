@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom/dist';
 import { fetchMovieCredits } from 'tools/API-service';
 import { RotatingLines } from 'react-loader-spinner';
 
+const defaultImg =
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhX_KhrF1bKL6pUN-lmhsdTeh9Y5oBKwDornJEZqh3Uh7uRA7s6M49mw0HA3SDGEC_4Gc&usqp=CAU';
+
 const Cast = () => {
   const { movieId } = useParams();
   const [movieCredits, setMovieCredits] = useState(null);
@@ -34,7 +37,12 @@ const Cast = () => {
                   <div className="row g-0">
                     <div className="col-md-4">
                       <img
-                        src={`https://www.themoviedb.org/t/p/w138_and_h175_face${credit.profile_path}`}
+                        width={'138px'}
+                        src={
+                          credit.profile_path
+                            ? `https://www.themoviedb.org/t/p/w138_and_h175_face${credit.profile_path}`
+                            : defaultImg
+                        }
                         alt="profile img"
                       />
                     </div>
