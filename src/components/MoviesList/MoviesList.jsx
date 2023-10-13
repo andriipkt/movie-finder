@@ -9,7 +9,7 @@ const MoviesList = ({ movies, location }) => {
     >
       {movies.map(({ id, title }) => (
         <li className="list-group-item" key={id}>
-          <Link to={`movies/${id}`} state={{ from: location }}>
+          <Link to={`/movies/${id}`} state={{ from: location }}>
             {title}
           </Link>
         </li>
