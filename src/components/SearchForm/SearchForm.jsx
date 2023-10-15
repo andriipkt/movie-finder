@@ -1,28 +1,13 @@
-// import { useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-const SearchForm = ({ onSubmit }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const movieSearchQuery = searchParams.get('query') ?? '';
-
-  // const savedQuery = useRef(movieSearchQuery);
-
-  const handleChange = event => {
-    const queryValue = event.target.value.trim();
-
-    const nextParams = queryValue !== '' ? { query: queryValue } : {};
-    setSearchParams(nextParams);
-  };
-
+const SearchForm = ({ onSubmit, onChange, value }) => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    if (movieSearchQuery.trim() === '') {
-      return Notify.warning('hooiya');
-      //  return Notify.warning('Please enter a movie name');
+    if (value.trim() === '') {
+      return Notify.warning('Please enter a movie name');
     }
-    onSubmit(movieSearchQuery);
+    onSubmit(value);
   };
 
   return (
@@ -34,8 +19,8 @@ const SearchForm = ({ onSubmit }) => {
           placeholder="Enter a movie name"
           aria-label="Enter a movie name"
           aria-describedby="button-addon2"
-          onChange={handleChange}
-          value={movieSearchQuery}
+          onChange={onChange}
+          value={value}
         />
         <button className="btn btn-warning" type="submit" id="button-addon2">
           Search

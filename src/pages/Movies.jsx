@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { fetchMovieByQuery } from 'tools/API-service';
 import { RotatingLines } from 'react-loader-spinner';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -10,23 +10,16 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-
-  const [query, setQuery] = useState('');
-
-  const savedQuery = useRef(query);
-  console.log(savedQuery);
-
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const movieSearchQuery = searchParams.get('query') ?? '';
-  // const savedQuery = useRef(movieSearchQuery);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const movieSearchQuery = searchParams.get('query') ?? '';
 
   useEffect(() => {
-    if (!query) return;
+    if (!movieSearchQuery) return;
 
     const fetchMoviesAPI = async () => {
       try {
         setLoading(true);
-        const response = await fetchMovieByQuery(query);
+        const response = await fetchMovieByQuery(movieSearchQuery);
         const { results } = response;
 
         if (results.length === 0) {
@@ -35,7 +28,6 @@ const Movies = () => {
         }
 
         setMovies(results);
-        savedQuery.current = query;
       } catch (error) {
         console.error(error);
       } finally {
@@ -43,32 +35,32 @@ const Movies = () => {
       }
     };
 
-    // if (savedQuery.current) {
-    //   fetchMoviesAPI();
-    // }
     fetchMoviesAPI();
-    // savedQuery.current && fetchMoviesAPI();
-  }, [query]);
+  }, [movieSearchQuery]);
 
-  // const updateQueryString = event => {
-  //   const queryValue = event.target.value.trim();
+  const handleChange = event => {
+    const queryValue = event.target.value.trim();
 
-  //   const nextParams = queryValue !== '' ? { query: queryValue } : {};
-  //   setSearchParams(nextParams);
-  // };
+    const nextParams = queryValue !== '' ? { query: queryValue } : {};
+    setSearchParams(nextParams);
+  };
 
-  const handleSubmit = movieSearchQuery => {
-    if (movieSearchQuery === query) {
+  const handleSubmit = value => {
+    if (value === movieSearchQuery) {
       return Notify.warning('Please enter another query');
     }
 
-    setQuery(movieSearchQuery);
+    setSearchParams(movieSearchQuery);
   };
 
   return (
     <>
       <h2>Movies</h2>
-      <SearchForm onSubmit={handleSubmit} />
+      <SearchForm
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        value={movieSearchQuery}
+      />
 
       {loading ? (
         <RotatingLines strokeColor="orange" width="36" />
