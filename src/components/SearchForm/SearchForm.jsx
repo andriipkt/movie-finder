@@ -1,13 +1,20 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { useState } from 'react';
 
-const SearchForm = ({ onSubmit, onChange, value }) => {
+const SearchForm = ({ onSubmit }) => {
+  const [formQuery, setFormQuery] = useState('');
+
+  const handleChange = ({ target: { value } }) => {
+    setFormQuery(value);
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
 
-    if (value.trim() === '') {
+    if (formQuery.trim() === '') {
       return Notify.warning('Please enter a movie name');
     }
-    onSubmit(value);
+    onSubmit(formQuery);
   };
 
   return (
@@ -19,8 +26,8 @@ const SearchForm = ({ onSubmit, onChange, value }) => {
           placeholder="Enter a movie name"
           aria-label="Enter a movie name"
           aria-describedby="button-addon2"
-          onChange={onChange}
-          value={value}
+          onChange={handleChange}
+          value={formQuery}
         />
         <button className="btn btn-warning" type="submit" id="button-addon2">
           Search

@@ -45,7 +45,6 @@ const Layout = () => {
           </Suspense>
         </div>
       </main>
-      <footer style={{ display: 'block', marginTop: '90vh' }}>Footer</footer>
     </>
   );
 };

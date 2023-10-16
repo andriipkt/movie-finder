@@ -38,29 +38,19 @@ const Movies = () => {
     fetchMoviesAPI();
   }, [movieSearchQuery]);
 
-  const handleChange = event => {
-    const queryValue = event.target.value.trim();
-
-    const nextParams = queryValue !== '' ? { query: queryValue } : {};
-    setSearchParams(nextParams);
-  };
-
   const handleSubmit = value => {
     if (value === movieSearchQuery) {
       return Notify.warning('Please enter another query');
     }
 
-    setSearchParams(movieSearchQuery);
+    const nextParams = value !== '' ? { query: value } : {};
+    setSearchParams(nextParams);
   };
 
   return (
     <>
       <h2>Movies</h2>
-      <SearchForm
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        value={movieSearchQuery}
-      />
+      <SearchForm onSubmit={handleSubmit} />
 
       {loading ? (
         <RotatingLines strokeColor="orange" width="36" />
