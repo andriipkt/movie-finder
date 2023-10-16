@@ -1,8 +1,10 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { useState } from 'react';
 
-const SearchForm = ({ onSubmit }) => {
-  const [formQuery, setFormQuery] = useState('');
+const SearchForm = ({ onSubmit, previousQuery }) => {
+  const [formQuery, setFormQuery] = useState(
+    previousQuery ? previousQuery : ''
+  );
 
   const handleChange = ({ target: { value } }) => {
     setFormQuery(value);

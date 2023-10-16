@@ -13,6 +13,9 @@ const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const movieSearchQuery = searchParams.get('query') ?? '';
 
+  ////
+  const [previousQuery, setPreviousQuery] = useState(movieSearchQuery);
+
   useEffect(() => {
     if (!movieSearchQuery) return;
 
@@ -36,6 +39,8 @@ const Movies = () => {
     };
 
     fetchMoviesAPI();
+
+    setPreviousQuery(movieSearchQuery);
   }, [movieSearchQuery]);
 
   const handleSubmit = value => {
@@ -50,7 +55,7 @@ const Movies = () => {
   return (
     <>
       <h2>Movies</h2>
-      <SearchForm onSubmit={handleSubmit} />
+      <SearchForm onSubmit={handleSubmit} previousQuery={previousQuery} />
 
       {loading ? (
         <RotatingLines strokeColor="orange" width="36" />
